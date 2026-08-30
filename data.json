@@ -1,10 +1,10 @@
 {
   "trip": {
-    "name": "NY Trip 2026 Am Tw Vw",
+    "name": "New York",
     "subtitle": "Brooklyn Tech Triangle",
     "dates": "Sept 9–13, 2026",
     "chat": "",
-    "updatedAt": "",
+    "updatedAt": "2026-08-30T22:20:45.172Z",
     "updatedBy": ""
   },
   "hotel": {
@@ -13,21 +13,67 @@
     "checkIn": "3:00 PM",
     "checkOut": "11:00 AM",
     "confirmation": "",
-    "room": "Double Bed",
+    "room": "",
     "maps": "https://maps.google.com/?q=29+Ryerson+Street+Brooklyn+NY+11205",
     "notes": "Café + coworking downstairs. Good morning hang / plan spot. Navy Yard is a 1-minute walk."
   },
   "people": [
-    { "id": "p1", "name": "Amanda", "AM": "Y", "phone": "", "arrival": "", "color": "#FFD60A" },
-    { "id": "p2", "name": "Tania", "TW": "F2", "phone": "", "arrival": "", "color": "#0B5FFF" },
-    { "id": "p3", "name": "Viranga", "VW": "F3", "phone": "", "arrival": "", "color": "#FF2D55" }
+    {
+      "id": "p1",
+      "name": "",
+      "initials": "",
+      "phone": "",
+      "arrival": "",
+      "color": "#FFD60A"
+    },
+    {
+      "id": "p2",
+      "name": "",
+      "initials": "",
+      "phone": "",
+      "arrival": "",
+      "color": "#0B5FFF"
+    },
+    {
+      "id": "p3",
+      "name": "",
+      "initials": "",
+      "phone": "",
+      "arrival": "",
+      "color": "#FF2D55"
+    }
   ],
   "days": [
-    { "id": "2026-09-09", "label": "Wed", "date": "Sep 9", "note": "Arrival day" },
-    { "id": "2026-09-10", "label": "Thu", "date": "Sep 10", "note": "" },
-    { "id": "2026-09-11", "label": "Fri", "date": "Sep 11", "note": "" },
-    { "id": "2026-09-12", "label": "Sat", "date": "Sep 12", "note": "" },
-    { "id": "2026-09-13", "label": "Sun", "date": "Sep 13", "note": "Flex / depart" }
+    {
+      "id": "2026-09-09",
+      "label": "Wed",
+      "date": "Sep 9",
+      "note": "Arrival day"
+    },
+    {
+      "id": "2026-09-10",
+      "label": "Thu",
+      "date": "Sep 10",
+      "note": ""
+    },
+    {
+      "id": "2026-09-11",
+      "label": "Fri",
+      "date": "Sep 11",
+      "note": ""
+    },
+    {
+      "id": "2026-09-12",
+      "label": "Sat",
+      "date": "Sep 12",
+      "note": ""
+    },
+    {
+      "id": "2026-09-13",
+      "label": "Sun",
+      "date": "Sep 13",
+      "note": "Flex / depart"
+    }
   ],
   "activities": [
     {
@@ -39,21 +85,12 @@
       "place": "29 Ryerson St lobby",
       "type": "logistics",
       "status": "locked",
-      "who": ["p1", "p2", "p3"],
+      "who": [
+        "p1",
+        "p2",
+        "p3"
+      ],
       "notes": "Check-in starts at 3pm.",
-      "link": ""
-    },
-    {
-      "id": "a2",
-      "day": "2026-09-09",
-      "start": "19:30",
-      "end": "21:30",
-      "title": "First night dinner",
-      "place": "TBD — Clinton Hill / Fort Greene",
-      "type": "food",
-      "status": "soft",
-      "who": ["p1", "p2", "p3"],
-      "notes": "Drop restaurant ideas below.",
       "link": ""
     },
     {
@@ -65,13 +102,14 @@
       "place": "Brooklyn Navy Yard",
       "type": "walk",
       "status": "idea",
-      "who": ["p1"],
+      "who": [
+        "p1"
+      ],
       "notes": "Optional. Tap your name if you want in.",
       "link": ""
     }
   ],
   "ideas": [
-    "Lilia / Misi if we can get a table",
     "Fort Greene Park at sunset",
     "DUMBO + waterfront",
     "Hotel café morning planning session"
