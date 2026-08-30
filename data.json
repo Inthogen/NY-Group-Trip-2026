@@ -1,6 +1,6 @@
 {
   "trip": {
-    "name": "Sela V",
+    "name": "NY Trip 2026 Am Tw Vw",
     "subtitle": "Brooklyn Tech Triangle",
     "dates": "Sept 9–13, 2026",
     "chat": "",
@@ -13,14 +13,14 @@
     "checkIn": "3:00 PM",
     "checkOut": "11:00 AM",
     "confirmation": "",
-    "room": "",
+    "room": "Double Bed",
     "maps": "https://maps.google.com/?q=29+Ryerson+Street+Brooklyn+NY+11205",
     "notes": "Café + coworking downstairs. Good morning hang / plan spot. Navy Yard is a 1-minute walk."
   },
   "people": [
-    { "id": "p1", "name": "You", "initials": "Y", "phone": "", "arrival": "", "color": "#FFD60A" },
-    { "id": "p2", "name": "Friend 2", "initials": "F2", "phone": "", "arrival": "", "color": "#0B5FFF" },
-    { "id": "p3", "name": "Friend 3", "initials": "F3", "phone": "", "arrival": "", "color": "#FF2D55" }
+    { "id": "p1", "name": "Amanda", "AM": "Y", "phone": "", "arrival": "", "color": "#FFD60A" },
+    { "id": "p2", "name": "Tania", "TW": "F2", "phone": "", "arrival": "", "color": "#0B5FFF" },
+    { "id": "p3", "name": "Viranga", "VW": "F3", "phone": "", "arrival": "", "color": "#FF2D55" }
   ],
   "days": [
     { "id": "2026-09-09", "label": "Wed", "date": "Sep 9", "note": "Arrival day" },
