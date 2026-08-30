@@ -1,138 +1,85 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyCm3KN4Xz37BseeQDuf6mYd0OJA38ATAMw",
+  authDomain: "new-york-2026-5e3aa.firebaseapp.com",
+  databaseURL: "https://new-york-2026-5e3aa-default-rtdb.firebaseio.com",
+  projectId: "new-york-2026-5e3aa",
+  storageBucket: "new-york-2026-5e3aa.firebasestorage.app",
+  messagingSenderId: "241343027531",
+  appId: "1:241343027531:web:206fb1b19ce964f24eb0ce"
+};
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Long Beach > New York 2026 Group Trip</title>
-  <meta name="description" content="Shared trip board for New York — week of Sept 9." />
+  <title>Sela V · Brooklyn</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --paper: #F4F0E6;
-      --ink: #111111;
-      --muted: #5C5C5C;
-      --line: #111111;
-      --yellow: #FFD60A;
-      --blue: #0B5FFF;
-      --pink: #FF2D55;
-      --white: #FFFC F7;
-      --card: #FFFdf8;
-      --ok: #0F9D58;
-    }
+    :root { --paper:#F4F0E6; --ink:#111; --muted:#5C5C5C; --yellow:#FFD60A; --blue:#0B5FFF; --pink:#FF2D55; --card:#FFFDF8; --ok:#0F9D58; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif; }
-    body { min-height: 100dvh; }
-    button, input, textarea, select { font: inherit; color: inherit; }
-    a { color: var(--blue); }
-    .wrap { width: min(1120px, calc(100% - 28px)); margin: 0 auto; }
-    header.top {
-      position: sticky; top: 0; z-index: 20;
-      background: var(--paper);
-      border-bottom: 2px solid var(--ink);
-    }
-    .top-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 14px 0 12px; }
-    .brand { display: flex; flex-direction: column; gap: 2px; }
-    .kicker { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
-    h1 { font-family: Syne, sans-serif; font-size: clamp(28px, 6vw, 44px); line-height: 0.9; margin: 0; letter-spacing: -0.04em; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .btn {
-      border: 2px solid var(--ink); background: var(--card); padding: 8px 12px;
-      font-weight: 600; cursor: pointer; border-radius: 999px;
-    }
-    .btn.yellow { background: var(--yellow); }
-    .btn.blue { background: var(--blue); color: white; border-color: #073db8; }
-    .hero {
-      display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 18px;
-      padding: 22px 0 10px;
-    }
-    .stripe {
-      background: var(--yellow); border: 2px solid var(--ink); padding: 18px;
-      box-shadow: 8px 8px 0 var(--ink);
-    }
-    .stripe p { margin: 8px 0 0; font-size: 15px; }
-    .meta { border: 2px solid var(--ink); background: var(--card); padding: 16px; }
-    .meta p { margin: 0 0 8px; }
-    .tabs { display: flex; gap: 8px; overflow: auto; padding: 8px 0 16px; }
-    .tab { border: 2px solid var(--ink); background: transparent; padding: 7px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
-    .tab.on { background: var(--ink); color: var(--yellow); }
-    .banner {
-      display: none; border: 2px solid var(--ink); background: #fff3b0; padding: 10px 12px; margin-bottom: 14px;
-    }
-    .banner.show { display: block; }
-    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .day {
-      border: 2px solid var(--ink); background: var(--card); min-height: 280px;
-      display: flex; flex-direction: column;
-    }
-    .day-h { padding: 10px; border-bottom: 2px solid var(--ink); background: #fff; }
-    .day-h b { font-family: Syne, sans-serif; font-size: 22px; display: block; }
-    .day-h span { color: var(--muted); font-size: 12px; }
-    .list { padding: 8px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-    .card {
-      border: 2px solid var(--ink); padding: 8px; cursor: pointer; background: #fff;
-    }
-    .card:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--ink); }
-    .card .t { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
-    .card h3 { margin: 3px 0 4px; font-size: 15px; line-height: 1.2; }
-    .who { display: flex; gap: 4px; flex-wrap: wrap; }
-    .chip {
-      width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--ink);
-      display: grid; place-items: center; font-size: 10px; font-weight: 700;
-    }
-    .status { font-size: 10px; text-transform: uppercase; font-weight: 700; }
-    .status.locked { color: var(--ok); }
-    .status.soft { color: var(--blue); }
-    .status.idea { color: var(--pink); }
-    .add {
-      margin: 8px; border: 2px dashed var(--ink); background: transparent;
-      padding: 8px; cursor: pointer; font-weight: 600;
-    }
-    .panel { display: none; margin-top: 18px; }
-    .panel.on { display: block; }
-    .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .person, .box { border: 2px solid var(--ink); background: var(--card); padding: 14px; }
-    .ideas { display: flex; flex-wrap: wrap; gap: 8px; }
-    .idea {
-      border: 2px solid var(--ink); background: white; padding: 8px 10px; cursor: pointer;
-    }
-    label { display: block; font-size: 12px; font-weight: 600; margin: 8px 0 4px; }
-    input, textarea, select {
-      width: 100%; border: 2px solid var(--ink); background: white; padding: 8px;
-    }
-    textarea { min-height: 80px; resize: vertical; }
-    .drawer-bg {
-      position: fixed; inset: 0; background: rgba(17,17,17,.45); display: none; z-index: 30;
-    }
-    .drawer-bg.on { display: block; }
-    .drawer {
-      position: fixed; right: 0; top: 0; height: 100%; width: min(420px, 100%);
-      background: var(--paper); border-left: 2px solid var(--ink); padding: 18px;
-      overflow: auto; z-index: 31; transform: translateX(100%); transition: transform .2s ease;
-    }
-    .drawer.on { transform: none; }
-    .who-edit { display: flex; flex-wrap: wrap; gap: 8px; }
-    .who-btn { border: 2px solid var(--ink); padding: 6px 10px; border-radius: 999px; cursor: pointer; background: white; }
-    .who-btn.on { background: var(--yellow); }
-    footer { padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
-    @media (max-width: 900px) {
-      .hero, .grid, .people { grid-template-columns: 1fr; }
-      .top-inner { align-items: flex-start; flex-direction: column; }
-    }
+    html, body { margin:0; background:var(--paper); color:var(--ink); font-family:"IBM Plex Sans",system-ui,sans-serif; }
+    button, input, textarea, select { font:inherit; color:inherit; }
+    a { color:var(--blue); }
+    .wrap { width:min(1120px, calc(100% - 28px)); margin:0 auto; }
+    header.top { position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:2px solid var(--ink); }
+    .top-inner { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding:14px 0 12px; }
+    .kicker { font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; }
+    h1 { font-family:Syne,sans-serif; font-size:clamp(28px,6vw,44px); line-height:.9; margin:0; letter-spacing:-.04em; }
+    .live { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; }
+    .dot { width:9px; height:9px; border-radius:50%; background:#bbb; }
+    .dot.on { background:var(--ok); }
+    .btn { border:2px solid var(--ink); background:var(--card); padding:8px 12px; font-weight:600; cursor:pointer; border-radius:999px; }
+    .btn.yellow { background:var(--yellow); }
+    .hero { display:grid; grid-template-columns:1.4fr .8fr; gap:18px; padding:22px 0 10px; }
+    .stripe { background:var(--yellow); border:2px solid var(--ink); padding:18px; box-shadow:8px 8px 0 var(--ink); }
+    .meta, .box, .person, .day, .card { border:2px solid var(--ink); background:var(--card); }
+    .meta { padding:16px; }
+    .tabs { display:flex; gap:8px; overflow:auto; padding:8px 0 16px; }
+    .tab, .add { border:2px solid var(--ink); background:transparent; padding:7px 12px; border-radius:999px; cursor:pointer; }
+    .tab.on { background:var(--ink); color:var(--yellow); }
+    .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+    .day { min-height:280px; display:flex; flex-direction:column; }
+    .day-h { padding:10px; border-bottom:2px solid var(--ink); background:#fff; }
+    .day-h b { font-family:Syne,sans-serif; font-size:22px; display:block; }
+    .list { padding:8px; display:flex; flex-direction:column; gap:8px; flex:1; }
+    .card { padding:8px; cursor:pointer; background:#fff; }
+    .card:hover { transform:translate(-2px,-2px); box-shadow:3px 3px 0 var(--ink); }
+    .card h3 { margin:3px 0 4px; font-size:15px; }
+    .who { display:flex; gap:4px; flex-wrap:wrap; }
+    .chip { width:24px; height:24px; border-radius:50%; border:1.5px solid var(--ink); display:grid; place-items:center; font-size:10px; font-weight:700; }
+    .status { font-size:10px; text-transform:uppercase; font-weight:700; }
+    .status.locked { color:var(--ok); } .status.soft { color:var(--blue); } .status.idea { color:var(--pink); }
+    .add { margin:8px; border-radius:0; border-style:dashed; }
+    .panel { display:none; margin-top:8px; } .panel.on { display:block; }
+    .people { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .person, .box { padding:14px; }
+    .ideas { display:flex; flex-wrap:wrap; gap:8px; }
+    .idea { border:2px solid var(--ink); background:#fff; padding:8px 10px; cursor:pointer; }
+    label { display:block; font-size:12px; font-weight:600; margin:8px 0 4px; }
+    input, textarea, select { width:100%; border:2px solid var(--ink); background:#fff; padding:8px; }
+    textarea { min-height:80px; }
+    .drawer-bg { position:fixed; inset:0; background:rgba(17,17,17,.45); display:none; z-index:30; }
+    .drawer-bg.on { display:block; }
+    .drawer { position:fixed; right:0; top:0; height:100%; width:min(420px,100%); background:var(--paper); border-left:2px solid var(--ink); padding:18px; overflow:auto; z-index:31; transform:translateX(100%); transition:transform .2s ease; }
+    .drawer.on { transform:none; }
+    .who-btn { border:2px solid var(--ink); padding:6px 10px; border-radius:999px; cursor:pointer; background:#fff; }
+    .who-btn.on { background:var(--yellow); }
+    footer { padding:28px 0 40px; color:var(--muted); font-size:13px; }
+    @media (max-width:900px){ .hero,.grid,.people{grid-template-columns:1fr;} .top-inner{flex-direction:column;align-items:flex-start;} }
   </style>
 </head>
 <body>
   <header class="top">
     <div class="wrap top-inner">
-      <div class="brand">
-        <div class="kicker">Week of Sept 9 · Shared board</div>
-        <h1>The NYC Crew: Amanda, Tania, and Viranga</h1>
+      <div>
+        <div class="kicker">Week of Sept 9 · Live board</div>
+        <h1>SELA V / BK</h1>
       </div>
-      <div class="actions">
-        <button class="btn" id="editToggle">Edit mode</button>
-        <button class="btn yellow" id="publishBtn">Publish for group</button>
-      </div>
+      <div class="live"><span class="dot" id="dot"></span><span id="liveLabel">Connecting…</span></div>
     </div>
   </header>
 
@@ -140,13 +87,11 @@
     <section class="hero">
       <div class="stripe">
         <div class="kicker">Bright industrial · Tech Triangle</div>
-        <h2 style="font-family:Syne,sans-serif;margin:8px 0 0;font-size:clamp(26px,5vw,40px);line-height:0.95;">Three people. One hotel. One live board.</h2>
-        <p>Tap a plan to see who’s in. Toggle your name. Add times. Publish so the GitHub link stays current for everyone.</p>
+        <h2 style="font-family:Syne,sans-serif;margin:8px 0 0;font-size:clamp(26px,5vw,40px);line-height:.95;">Tap in. Everyone else sees it.</h2>
+        <p>No publish step. If you add dinner or toggle your name, the same link updates for the other two.</p>
       </div>
       <div class="meta" id="hotelMeta"></div>
     </section>
-
-    <div class="banner" id="localBanner">You have unpublished edits on this phone. Publish so the others see them.</div>
 
     <div class="tabs">
       <button class="tab on" data-tab="schedule">Schedule</button>
@@ -155,212 +100,167 @@
       <button class="tab" data-tab="hotel">Hotel + transit</button>
     </div>
 
-    <section class="panel on" id="schedule">
-      <div class="grid" id="dayGrid"></div>
-    </section>
-
-    <section class="panel" id="who">
-      <div class="people" id="peopleGrid"></div>
-    </section>
-
+    <section class="panel on" id="schedule"><div class="grid" id="dayGrid"></div></section>
+    <section class="panel" id="who"><div class="people" id="peopleGrid"></div></section>
     <section class="panel" id="ideas">
       <div class="box">
         <div class="kicker">Parking lot</div>
-        <p>Tap an idea to turn it into a schedule item for today-ish. Or add a new one.</p>
         <div class="ideas" id="ideaList"></div>
         <label>New idea</label>
-        <input id="newIdea" placeholder="Late-night slice, ferry ride, Pratt wander..." />
+        <input id="newIdea" placeholder="Ferry, Fort Greene sunset, late slice..." />
         <div style="height:8px"></div>
         <button class="btn yellow" id="addIdea">Add idea</button>
       </div>
     </section>
-
-    <section class="panel" id="hotel">
-      <div class="box" id="hotelFull"></div>
-    </section>
-
-    <footer>
-      Source of truth is <code>data.json</code> in the GitHub repo. This page reads that file, then keeps local edits until someone publishes.
-    </footer>
+    <section class="panel" id="hotel"><div class="box" id="hotelFull"></div></section>
+    <footer>Hosted on GitHub Pages. Live data is in Firebase, not the repo.</footer>
   </main>
 
   <div class="drawer-bg" id="drawerBg"></div>
   <aside class="drawer" id="drawer"></aside>
 
-  <dialog id="publishModal" style="border:2px solid #111;width:min(640px,92vw);padding:18px;background:#F4F0E6;">
-    <h3 style="font-family:Syne,sans-serif;margin-top:0;">Publish this version</h3>
-    <p>1. Copy the JSON.<br>2. Open the data file on GitHub.<br>3. Replace everything, commit, then have friends refresh.</p>
-    <p><a id="editLink" target="_blank" rel="noreferrer">Open data.json on GitHub</a></p>
-    <textarea id="publishOut" style="min-height:180px;"></textarea>
-    <div style="display:flex;gap:8px;margin-top:10px;">
-      <button class="btn yellow" id="copyJson">Copy JSON</button>
-      <button class="btn" id="closePublish">Done</button>
-    </div>
-  </dialog>
-
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   <script>
-    const DEFAULT_REPO_HINT = "https://inthogen.github.io/NY-Group-Trip-2026/edit/main/data.json";
+    const firebaseConfig = {
+      apiKey: "PASTE_ME",
+      authDomain: "PASTE_ME",
+      databaseURL: "PASTE_ME",
+      projectId: "PASTE_ME",
+      storageBucket: "PASTE_ME",
+      messagingSenderId: "PASTE_ME",
+      appId: "PASTE_ME"
+    };
+
+    const TRIP_PATH = "trips/selaV2026";
+
+    const SEED = {
+      trip: { name:"Sela V", subtitle:"Brooklyn Tech Triangle", dates:"Sept 9–13, 2026", chat:"", updatedAt:"" },
+      hotel: {
+        name:"Sela V Hotel",
+        address:"29 Ryerson Street, Brooklyn, NY 11205",
+        checkIn:"3:00 PM", checkOut:"11:00 AM",
+        confirmation:"", room:"",
+        maps:"https://maps.google.com/?q=29+Ryerson+Street+Brooklyn+NY+11205",
+        notes:"Café + coworking downstairs. Navy Yard is a 1-minute walk."
+      },
+      people: [
+        { id:"p1", name:"You", initials:"Y", phone:"", arrival:"", color:"#FFD60A" },
+        { id:"p2", name:"Friend 2", initials:"F2", phone:"", arrival:"", color:"#0B5FFF" },
+        { id:"p3", name:"Friend 3", initials:"F3", phone:"", arrival:"", color:"#FF2D55" }
+      ],
+      days: [
+        { id:"2026-09-09", label:"Wed", date:"Sep 9", note:"Arrival day" },
+        { id:"2026-09-10", label:"Thu", date:"Sep 10", note:"" },
+        { id:"2026-09-11", label:"Fri", date:"Sep 11", note:"" },
+        { id:"2026-09-12", label:"Sat", date:"Sep 12", note:"" },
+        { id:"2026-09-13", label:"Sun", date:"Sep 13", note:"Flex / depart" }
+      ],
+      activities: [
+        { id:"a1", day:"2026-09-09", start:"15:00", end:"16:00", title:"Check in at Sela V", place:"Lobby", type:"logistics", status:"locked", who:["p1","p2","p3"], notes:"Check-in starts at 3pm.", link:"" },
+        { id:"a2", day:"2026-09-09", start:"19:30", end:"21:30", title:"First night dinner", place:"Clinton Hill / Fort Greene", type:"food", status:"soft", who:["p1","p2","p3"], notes:"", link:"" }
+      ],
+      ideas: ["Fort Greene Park at sunset", "DUMBO waterfront", "Hotel café morning plan"]
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const ref = db.ref(TRIP_PATH);
+
     let data = null;
-    let editMode = false;
-    let dirty = false;
-    let activeId = null;
-
+    let applyingRemote = false;
     const $ = (id) => document.getElementById(id);
+    const person = (id) => data.people.find(p => p.id === id);
 
-    function person(id){ return data.people.find(p => p.id === id); }
-
-    function saveLocal(){
+    function pushLive(){
+      if (!data || applyingRemote) return;
       data.trip.updatedAt = new Date().toISOString();
-      localStorage.setItem("sela-v-data", JSON.stringify(data));
-      dirty = true;
-      $("localBanner").classList.add("show");
-    }
-
-    function sortActs(dayId){
-      return data.activities
-        .filter(a => a.day === dayId)
-        .sort((a,b) => (a.start || "").localeCompare(b.start || ""));
+      ref.set(JSON.parse(JSON.stringify(data)));
     }
 
     function renderHotel(){
       const h = data.hotel;
-      $("hotelMeta").innerHTML = `
-        <div class="kicker">${data.trip.subtitle}</div>
+      $("hotelMeta").innerHTML = `<div class="kicker">${data.trip.subtitle}</div>
         <p><b>${h.name}</b><br>${h.address}</p>
         <p>In ${h.checkIn} · Out ${h.checkOut}</p>
         <p><a href="${h.maps}" target="_blank" rel="noreferrer">Open in Maps</a></p>
-        ${data.trip.chat ? `<p>Group chat: ${data.trip.chat}</p>` : `<p>Add the group chat link in Who’s who.</p>`}
-      `;
-      $("hotelFull").innerHTML = `
-        <div class="kicker">Base camp</div>
+        ${data.trip.chat ? `<p>Chat: ${escapeHtml(data.trip.chat)}</p>` : `<p>Add the group chat on Who’s who.</p>`}`;
+      $("hotelFull").innerHTML = `<div class="kicker">Base camp</div>
         <p><b>${h.name}</b><br>${h.address}</p>
-        <p>Check-in ${h.checkIn} · Check-out ${h.checkOut}</p>
-        <label>Confirmation</label>
-        <input id="conf" value="${h.confirmation || ""}" ${editMode ? "" : "readonly"} />
-        <label>Room</label>
-        <input id="room" value="${h.room || ""}" ${editMode ? "" : "readonly"} />
-        <label>Notes</label>
-        <textarea id="hnotes" ${editMode ? "" : "readonly"}>${h.notes || ""}</textarea>
-        <p>Closest energy: Navy Yard, Clinton Hill, Fort Greene, Pratt. Subway is a short walk (Clinton–Washington / Classon), not doorstep. Ferry / Navy Yard area is close.</p>
-        <p>Default meet-up: hotel lobby, unless a card says otherwise.</p>
-      `;
-      if (editMode) {
-        $("conf").oninput = e => { data.hotel.confirmation = e.target.value; saveLocal(); };
-        $("room").oninput = e => { data.hotel.room = e.target.value; saveLocal(); };
-        $("hnotes").oninput = e => { data.hotel.notes = e.target.value; saveLocal(); };
-      }
+        <label>Confirmation</label><input id="conf" value="${escapeAttr(h.confirmation)}" />
+        <label>Room</label><input id="room" value="${escapeAttr(h.room)}" />
+        <label>Notes</label><textarea id="hnotes">${escapeHtml(h.notes)}</textarea>
+        <p>Default meetup: hotel lobby. Subway is a short walk, not at the door. Navy Yard / ferry area is right there.</p>`;
+      $("conf").oninput = e => { data.hotel.confirmation = e.target.value; pushLive(); };
+      $("room").oninput = e => { data.hotel.room = e.target.value; pushLive(); };
+      $("hnotes").oninput = e => { data.hotel.notes = e.target.value; pushLive(); };
     }
 
     function renderDays(){
       $("dayGrid").innerHTML = data.days.map(day => {
-        const cards = sortActs(day.id).map(a => `
-          <article class="card" data-id="${a.id}">
-            <div class="t">${a.start || "--"} ${a.end ? "– " + a.end : ""} · <span class="status ${a.status}">${a.status}</span></div>
-            <h3>${a.title}</h3>
-            <div class="who">
-              ${a.who.map(id => {
+        const cards = data.activities
+          .filter(a => a.day === day.id)
+          .sort((a,b) => (a.start||"").localeCompare(b.start||""))
+          .map(a => `<article class="card" data-id="${a.id}">
+              <div class="t">${a.start || "--"}${a.end ? " – "+a.end : ""} · <span class="status ${a.status}">${a.status}</span></div>
+              <h3>${escapeHtml(a.title)}</h3>
+              <div class="who">${(a.who||[]).map(id => {
                 const p = person(id); if (!p) return "";
-                return `<span class="chip" title="${p.name}" style="background:${p.color}">${p.initials}</span>`;
-              }).join("")}
-            </div>
-          </article>
-        `).join("") || `<div style="color:#5C5C5C;font-size:13px;padding:6px;">Nothing yet.</div>`;
-        return `
-          <section class="day">
-            <div class="day-h">
-              <b>${day.label}</b>
-              <span>${day.date}${day.note ? " · " + day.note : ""}</span>
-            </div>
-            <div class="list">${cards}</div>
-            <button class="add" data-day="${day.id}">+ Add</button>
-          </section>`;
+                return `<span class="chip" style="background:${p.color}">${escapeHtml(p.initials)}</span>`;
+              }).join("")}</div>
+            </article>`).join("") || `<div style="color:#5C5C5C;padding:6px;">Nothing yet.</div>`;
+        return `<section class="day"><div class="day-h"><b>${day.label}</b><span>${day.date}${day.note ? " · "+day.note : ""}</span></div>
+          <div class="list">${cards}</div>
+          <button class="add" data-day="${day.id}">+ Add</button></section>`;
       }).join("");
-
       document.querySelectorAll(".card").forEach(el => el.onclick = () => openDrawer(el.dataset.id));
-      document.querySelectorAll(".add").forEach(el => el.onclick = () => addActivity(el.dataset.day));
+      document.querySelectorAll(".add").forEach(el => el.onclick = () => {
+        const id = "a" + Date.now();
+        data.activities.push({ id, day:el.dataset.day, start:"12:00", end:"", title:"New plan", place:"", type:"other", status:"soft", who:[], notes:"", link:"" });
+        pushLive();
+      });
     }
 
     function renderPeople(){
       $("peopleGrid").innerHTML = data.people.map(p => `
         <div class="person">
-          <div class="chip" style="background:${p.color};width:36px;height:36px;font-size:13px;">${p.initials}</div>
-          <label>Name</label>
-          <input data-k="name" data-id="${p.id}" value="${p.name}" />
-          <label>Initials</label>
-          <input data-k="initials" data-id="${p.id}" value="${p.initials}" maxlength="3" />
-          <label>Phone</label>
-          <input data-k="phone" data-id="${p.id}" value="${p.phone || ""}" />
-          <label>Arrival</label>
-          <input data-k="arrival" data-id="${p.id}" value="${p.arrival || ""}" placeholder="Wed 4:10pm, JFK, Uber" />
-        </div>
-      `).join("") + `
-        <div class="person">
-          <div class="kicker">Group chat</div>
-          <label>WhatsApp / iMessage / GroupMe link or name</label>
-          <input id="chat" value="${data.trip.chat || ""}" />
-        </div>`;
+          <div class="chip" style="background:${p.color};width:36px;height:36px;">${escapeHtml(p.initials)}</div>
+          <label>Name</label><input data-k="name" data-id="${p.id}" value="${escapeAttr(p.name)}" />
+          <label>Initials</label><input data-k="initials" data-id="${p.id}" value="${escapeAttr(p.initials)}" maxlength="3" />
+          <label>Phone</label><input data-k="phone" data-id="${p.id}" value="${escapeAttr(p.phone)}" />
+          <label>Arrival</label><input data-k="arrival" data-id="${p.id}" value="${escapeAttr(p.arrival)}" placeholder="Wed 4:10pm JFK" />
+        </div>`).join("") + `<div class="person"><div class="kicker">Group chat</div>
+          <input id="chat" value="${escapeAttr(data.trip.chat)}" placeholder="WhatsApp / iMessage link" /></div>`;
       document.querySelectorAll("#peopleGrid input[data-k]").forEach(inp => {
-        inp.oninput = () => {
-          const p = person(inp.dataset.id);
-          p[inp.dataset.k] = inp.value;
-          saveLocal(); renderDays();
-        };
+        inp.oninput = () => { person(inp.dataset.id)[inp.dataset.k] = inp.value; pushLive(); };
       });
-      $("chat").oninput = e => { data.trip.chat = e.target.value; saveLocal(); renderHotel(); };
+      $("chat").oninput = e => { data.trip.chat = e.target.value; pushLive(); };
     }
 
     function renderIdeas(){
-      $("ideaList").innerHTML = (data.ideas || []).map((idea, i) =>
-        `<button class="idea" data-i="${i}">${idea}</button>`
+      $("ideaList").innerHTML = (data.ideas||[]).map((idea,i) =>
+        `<button class="idea" data-i="${i}">${escapeHtml(idea)}</button>`
       ).join("") || `<span>No ideas yet.</span>`;
-      document.querySelectorAll(".idea").forEach(btn => btn.onclick = () => promoteIdea(+btn.dataset.i));
-    }
-
-    function promoteIdea(i){
-      const title = data.ideas[i];
-      data.activities.push({
-        id: "a" + Date.now(),
-        day: data.days[0].id,
-        start: "",
-        end: "",
-        title,
-        place: "",
-        type: "idea",
-        status: "idea",
-        who: [],
-        notes: "Promoted from ideas.",
-        link: ""
+      document.querySelectorAll(".idea").forEach(btn => btn.onclick = () => {
+        const title = data.ideas[+btn.dataset.i];
+        data.ideas.splice(+btn.dataset.i, 1);
+        data.activities.push({ id:"a"+Date.now(), day:data.days[0].id, start:"", end:"", title, place:"", type:"idea", status:"idea", who:[], notes:"From ideas.", link:"" });
+        pushLive();
       });
-      data.ideas.splice(i, 1);
-      saveLocal(); renderDays(); renderIdeas();
-    }
-
-    function addActivity(day){
-      const id = "a" + Date.now();
-      data.activities.push({
-        id, day, start: "12:00", end: "", title: "New plan", place: "",
-        type: "other", status: "soft", who: [], notes: "", link: ""
-      });
-      saveLocal(); renderDays(); openDrawer(id);
     }
 
     function openDrawer(id){
-      activeId = id;
       const a = data.activities.find(x => x.id === id);
       if (!a) return;
-      $("drawer").innerHTML = `
-        <div class="kicker">Plan</div>
-        <h2 style="font-family:Syne,sans-serif;margin:6px 0 12px;">${a.title}</h2>
-        <label>Title</label>
-        <input id="dTitle" value="${a.title}" />
-        <label>Day</label>
-        <select id="dDay">${data.days.map(d => `<option value="${d.id}" ${d.id===a.day?"selected":""}>${d.label} ${d.date}</option>`).join("")}</select>
+      $("drawer").innerHTML = `<div class="kicker">Plan</div>
+        <h2 style="font-family:Syne,sans-serif;margin:6px 0 12px;">${escapeHtml(a.title)}</h2>
+        <label>Title</label><input id="dTitle" value="${escapeAttr(a.title)}" />
+        <label>Day</label><select id="dDay">${data.days.map(d => `<option value="${d.id}" ${d.id===a.day?"selected":""}>${d.label} ${d.date}</option>`).join("")}</select>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div><label>Start</label><input id="dStart" type="time" value="${a.start || ""}" /></div>
-          <div><label>End</label><input id="dEnd" type="time" value="${a.end || ""}" /></div>
+          <div><label>Start</label><input id="dStart" type="time" value="${a.start||""}" /></div>
+          <div><label>End</label><input id="dEnd" type="time" value="${a.end||""}" /></div>
         </div>
-        <label>Place</label>
-        <input id="dPlace" value="${a.place || ""}" />
+        <label>Place</label><input id="dPlace" value="${escapeAttr(a.place)}" />
         <label>Status</label>
         <select id="dStatus">
           <option value="locked" ${a.status==="locked"?"selected":""}>Locked</option>
@@ -368,109 +268,60 @@
           <option value="idea" ${a.status==="idea"?"selected":""}>Idea</option>
         </select>
         <label>Who’s in — tap to toggle</label>
-        <div class="who-edit">
-          ${data.people.map(p => `<button class="who-btn ${a.who.includes(p.id)?"on":""}" data-pid="${p.id}">${p.name}</button>`).join("")}
-        </div>
-        <label>Notes / link</label>
-        <textarea id="dNotes">${a.notes || ""}</textarea>
-        <input id="dLink" value="${a.link || ""}" placeholder="Maps or reservation link" style="margin-top:8px;" />
+        <div>${data.people.map(p => `<button class="who-btn ${(a.who||[]).includes(p.id)?"on":""}" data-pid="${p.id}">${escapeHtml(p.name)}</button>`).join(" ")}</div>
+        <label>Notes</label><textarea id="dNotes">${escapeHtml(a.notes)}</textarea>
+        <input id="dLink" value="${escapeAttr(a.link)}" placeholder="Maps or reservation link" style="margin-top:8px;" />
         <div style="display:flex;gap:8px;margin-top:14px;">
           <button class="btn yellow" id="saveAct">Save</button>
           <button class="btn" id="delAct">Remove</button>
-        </div>
-      `;
-      $("drawer").classList.add("on");
-      $("drawerBg").classList.add("on");
+        </div>`;
+      $("drawer").classList.add("on"); $("drawerBg").classList.add("on");
       document.querySelectorAll(".who-btn").forEach(btn => btn.onclick = () => {
-        const pid = btn.dataset.pid;
-        if (a.who.includes(pid)) a.who = a.who.filter(x => x !== pid);
-        else a.who.push(pid);
-        saveLocal(); openDrawer(id); renderDays();
+        a.who = a.who || [];
+        a.who = a.who.includes(btn.dataset.pid) ? a.who.filter(x => x !== btn.dataset.pid) : a.who.concat(btn.dataset.pid);
+        pushLive();
       });
       $("saveAct").onclick = () => {
-        a.title = $("dTitle").value.trim() || "Untitled";
-        a.day = $("dDay").value;
-        a.start = $("dStart").value;
-        a.end = $("dEnd").value;
-        a.place = $("dPlace").value;
-        a.status = $("dStatus").value;
-        a.notes = $("dNotes").value;
-        a.link = $("dLink").value;
-        saveLocal(); renderDays(); closeDrawer();
+        Object.assign(a, {
+          title: $("dTitle").value.trim() || "Untitled",
+          day: $("dDay").value, start: $("dStart").value, end: $("dEnd").value,
+          place: $("dPlace").value, status: $("dStatus").value,
+          notes: $("dNotes").value, link: $("dLink").value
+        });
+        pushLive(); closeDrawer();
       };
-      $("delAct").onclick = () => {
-        data.activities = data.activities.filter(x => x.id !== id);
-        saveLocal(); renderDays(); closeDrawer();
-      };
+      $("delAct").onclick = () => { data.activities = data.activities.filter(x => x.id !== id); pushLive(); closeDrawer(); };
     }
 
-    function closeDrawer(){
-      $("drawer").classList.remove("on");
-      $("drawerBg").classList.remove("on");
-    }
-
-    function renderAll(){
-      renderHotel();
-      renderDays();
-      renderPeople();
-      renderIdeas();
-    }
+    function closeDrawer(){ $("drawer").classList.remove("on"); $("drawerBg").classList.remove("on"); }
+    function renderAll(){ renderHotel(); renderDays(); renderPeople(); renderIdeas(); }
+    function escapeHtml(s=""){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escapeAttr(s=""){ return escapeHtml(s); }
 
     $("drawerBg").onclick = closeDrawer;
     document.querySelectorAll(".tab").forEach(tab => tab.onclick = () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("on"));
       document.querySelectorAll(".panel").forEach(p => p.classList.remove("on"));
-      tab.classList.add("on");
-      $(tab.dataset.tab).classList.add("on");
+      tab.classList.add("on"); $(tab.dataset.tab).classList.add("on");
     });
-    $("editToggle").onclick = () => {
-      editMode = !editMode;
-      $("editToggle").textContent = editMode ? "Editing on" : "Edit mode";
-      $("editToggle").classList.toggle("yellow", editMode);
-      renderAll();
-    };
     $("addIdea").onclick = () => {
-      const v = $("newIdea").value.trim();
-      if (!v) return;
-      data.ideas.push(v);
-      $("newIdea").value = "";
-      saveLocal(); renderIdeas();
+      const v = $("newIdea").value.trim(); if (!v) return;
+      data.ideas = data.ideas || []; data.ideas.push(v); $("newIdea").value = ""; pushLive();
     };
-    $("publishBtn").onclick = () => {
-      $("publishOut").value = JSON.stringify(data, null, 2);
-      $("editLink").href = DEFAULT_REPO_HINT;
-      $("publishModal").showModal();
-    };
-    $("copyJson").onclick = async () => {
-      await navigator.clipboard.writeText($("publishOut").value);
-      $("copyJson").textContent = "Copied";
-      setTimeout(() => $("copyJson").textContent = "Copy JSON", 1200);
-    };
-    $("closePublish").onclick = () => $("publishModal").close();
 
-    async function boot(){
-      const local = localStorage.getItem("sela-v-data");
-      try {
-        const res = await fetch("./data.json", { cache: "no-store" });
-        const remote = await res.json();
-        if (local) {
-          const parsed = JSON.parse(local);
-          const lt = Date.parse(parsed.trip?.updatedAt || 0);
-          const rt = Date.parse(remote.trip?.updatedAt || 0);
-          data = lt > rt ? parsed : remote;
-          dirty = lt > rt;
-        } else data = remote;
-      } catch (e) {
-        data = local ? JSON.parse(local) : null;
-      }
-      if (!data) {
-        document.body.innerHTML = "<p style='padding:24px'>Could not load data.json. Put both files in the repo root and enable GitHub Pages.</p>";
-        return;
-      }
-      if (dirty) $("localBanner").classList.add("show");
+    ref.on("value", snap => {
+      applyingRemote = true;
+      const val = snap.val();
+      if (!val) { ref.set(SEED); applyingRemote = false; return; }
+      data = val;
+      data.activities = data.activities || [];
+      data.ideas = data.ideas || [];
+      $("dot").classList.add("on");
+      $("liveLabel").textContent = "Live";
       renderAll();
-    }
-    boot();
+      applyingRemote = false;
+    });
+    ref.on("value", () => {}, err => { $("liveLabel").textContent = "Not connected — check Firebase config"; });
   </script>
 </body>
 </html>
