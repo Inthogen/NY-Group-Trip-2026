@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sela V · Brooklyn</title>
+  <meta name="description" content="Shared trip board for Sela V, Brooklyn — week of Sept 9." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F4F0E6;
+      --ink: #111111;
+      --muted: #5C5C5C;
+      --line: #111111;
+      --yellow: #FFD60A;
+      --blue: #0B5FFF;
+      --pink: #FF2D55;
+      --white: #FFFC F7;
+      --card: #FFFdf8;
+      --ok: #0F9D58;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    body { min-height: 100dvh; }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    a { color: var(--blue); }
+    .wrap { width: min(1120px, calc(100% - 28px)); margin: 0 auto; }
+    header.top {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--paper);
+      border-bottom: 2px solid var(--ink);
+    }
+    .top-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 14px 0 12px; }
+    .brand { display: flex; flex-direction: column; gap: 2px; }
+    .kicker { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+    h1 { font-family: Syne, sans-serif; font-size: clamp(28px, 6vw, 44px); line-height: 0.9; margin: 0; letter-spacing: -0.04em; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 2px solid var(--ink); background: var(--card); padding: 8px 12px;
+      font-weight: 600; cursor: pointer; border-radius: 999px;
+    }
+    .btn.yellow { background: var(--yellow); }
+    .btn.blue { background: var(--blue); color: white; border-color: #073db8; }
+    .hero {
+      display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 18px;
+      padding: 22px 0 10px;
+    }
+    .stripe {
+      background: var(--yellow); border: 2px solid var(--ink); padding: 18px;
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .stripe p { margin: 8px 0 0; font-size: 15px; }
+    .meta { border: 2px solid var(--ink); background: var(--card); padding: 16px; }
+    .meta p { margin: 0 0 8px; }
+    .tabs { display: flex; gap: 8px; overflow: auto; padding: 8px 0 16px; }
+    .tab { border: 2px solid var(--ink); background: transparent; padding: 7px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+    .tab.on { background: var(--ink); color: var(--yellow); }
+    .banner {
+      display: none; border: 2px solid var(--ink); background: #fff3b0; padding: 10px 12px; margin-bottom: 14px;
+    }
+    .banner.show { display: block; }
+    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .day {
+      border: 2px solid var(--ink); background: var(--card); min-height: 280px;
+      display: flex; flex-direction: column;
+    }
+    .day-h { padding: 10px; border-bottom: 2px solid var(--ink); background: #fff; }
+    .day-h b { font-family: Syne, sans-serif; font-size: 22px; display: block; }
+    .day-h span { color: var(--muted); font-size: 12px; }
+    .list { padding: 8px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .card {
+      border: 2px solid var(--ink); padding: 8px; cursor: pointer; background: #fff;
+    }
+    .card:hover { transform: translate(-2px, -2px); box-shadow: 3px 3px 0 var(--ink); }
+    .card .t { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
+    .card h3 { margin: 3px 0 4px; font-size: 15px; line-height: 1.2; }
+    .who { display: flex; gap: 4px; flex-wrap: wrap; }
+    .chip {
+      width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--ink);
+      display: grid; place-items: center; font-size: 10px; font-weight: 700;
+    }
+    .status { font-size: 10px; text-transform: uppercase; font-weight: 700; }
+    .status.locked { color: var(--ok); }
+    .status.soft { color: var(--blue); }
+    .status.idea { color: var(--pink); }
+    .add {
+      margin: 8px; border: 2px dashed var(--ink); background: transparent;
+      padding: 8px; cursor: pointer; font-weight: 600;
+    }
+    .panel { display: none; margin-top: 18px; }
+    .panel.on { display: block; }
+    .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .person, .box { border: 2px solid var(--ink); background: var(--card); padding: 14px; }
+    .ideas { display: flex; flex-wrap: wrap; gap: 8px; }
+    .idea {
+      border: 2px solid var(--ink); background: white; padding: 8px 10px; cursor: pointer;
+    }
+    label { display: block; font-size: 12px; font-weight: 600; margin: 8px 0 4px; }
+    input, textarea, select {
+      width: 100%; border: 2px solid var(--ink); background: white; padding: 8px;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .drawer-bg {
+      position: fixed; inset: 0; background: rgba(17,17,17,.45); display: none; z-index: 30;
+    }
+    .drawer-bg.on { display: block; }
+    .drawer {
+      position: fixed; right: 0; top: 0; height: 100%; width: min(420px, 100%);
+      background: var(--paper); border-left: 2px solid var(--ink); padding: 18px;
+      overflow: auto; z-index: 31; transform: translateX(100%); transition: transform .2s ease;
+    }
+    .drawer.on { transform: none; }
+    .who-edit { display: flex; flex-wrap: wrap; gap: 8px; }
+    .who-btn { border: 2px solid var(--ink); padding: 6px 10px; border-radius: 999px; cursor: pointer; background: white; }
+    .who-btn.on { background: var(--yellow); }
+    footer { padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 900px) {
+      .hero, .grid, .people { grid-template-columns: 1fr; }
+      .top-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div class="brand">
+        <div class="kicker">Week of Sept 9 · Shared board</div>
+        <h1>SELA V / BK</h1>
+      </div>
+      <div class="actions">
+        <button class="btn" id="editToggle">Edit mode</button>
+        <button class="btn yellow" id="publishBtn">Publish for group</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="stripe">
+        <div class="kicker">Bright industrial · Tech Triangle</div>
+        <h2 style="font-family:Syne,sans-serif;margin:8px 0 0;font-size:clamp(26px,5vw,40px);line-height:0.95;">Three people. One hotel. One live board.</h2>
+        <p>Tap a plan to see who’s in. Toggle your name. Add times. Publish so the GitHub link stays current for everyone.</p>
+      </div>
+      <div class="meta" id="hotelMeta"></div>
+    </section>
+
+    <div class="banner" id="localBanner">You have unpublished edits on this phone. Publish so the others see them.</div>
+
+    <div class="tabs">
+      <button class="tab on" data-tab="schedule">Schedule</button>
+      <button class="tab" data-tab="who">Who’s who</button>
+      <button class="tab" data-tab="ideas">Ideas</button>
+      <button class="tab" data-tab="hotel">Hotel + transit</button>
+    </div>
+
+    <section class="panel on" id="schedule">
+      <div class="grid" id="dayGrid"></div>
+    </section>
+
+    <section class="panel" id="who">
+      <div class="people" id="peopleGrid"></div>
+    </section>
+
+    <section class="panel" id="ideas">
+      <div class="box">
+        <div class="kicker">Parking lot</div>
+        <p>Tap an idea to turn it into a schedule item for today-ish. Or add a new one.</p>
+        <div class="ideas" id="ideaList"></div>
+        <label>New idea</label>
+        <input id="newIdea" placeholder="Late-night slice, ferry ride, Pratt wander..." />
+        <div style="height:8px"></div>
+        <button class="btn yellow" id="addIdea">Add idea</button>
+      </div>
+    </section>
+
+    <section class="panel" id="hotel">
+      <div class="box" id="hotelFull"></div>
+    </section>
+
+    <footer>
+      Source of truth is <code>data.json</code> in the GitHub repo. This page reads that file, then keeps local edits until someone publishes.
+    </footer>
+  </main>
+
+  <div class="drawer-bg" id="drawerBg"></div>
+  <aside class="drawer" id="drawer"></aside>
+
+  <dialog id="publishModal" style="border:2px solid #111;width:min(640px,92vw);padding:18px;background:#F4F0E6;">
+    <h3 style="font-family:Syne,sans-serif;margin-top:0;">Publish this version</h3>
+    <p>1. Copy the JSON.<br>2. Open the data file on GitHub.<br>3. Replace everything, commit, then have friends refresh.</p>
+    <p><a id="editLink" target="_blank" rel="noreferrer">Open data.json on GitHub</a></p>
+    <textarea id="publishOut" style="min-height:180px;"></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button class="btn yellow" id="copyJson">Copy JSON</button>
+      <button class="btn" id="closePublish">Done</button>
+    </div>
+  </dialog>
+
+  <script>
+    const DEFAULT_REPO_HINT = "https://github.com/YOUR-USERNAME/sela-v-brooklyn/edit/main/data.json";
+    let data = null;
+    let editMode = false;
+    let dirty = false;
+    let activeId = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function person(id){ return data.people.find(p => p.id === id); }
+
+    function saveLocal(){
+      data.trip.updatedAt = new Date().toISOString();
+      localStorage.setItem("sela-v-data", JSON.stringify(data));
+      dirty = true;
+      $("localBanner").classList.add("show");
+    }
+
+    function sortActs(dayId){
+      return data.activities
+        .filter(a => a.day === dayId)
+        .sort((a,b) => (a.start || "").localeCompare(b.start || ""));
+    }
+
+    function renderHotel(){
+      const h = data.hotel;
+      $("hotelMeta").innerHTML = `
+        <div class="kicker">${data.trip.subtitle}</div>
+        <p><b>${h.name}</b><br>${h.address}</p>
+        <p>In ${h.checkIn} · Out ${h.checkOut}</p>
+        <p><a href="${h.maps}" target="_blank" rel="noreferrer">Open in Maps</a></p>
+        ${data.trip.chat ? `<p>Group chat: ${data.trip.chat}</p>` : `<p>Add the group chat link in Who’s who.</p>`}
+      `;
+      $("hotelFull").innerHTML = `
+        <div class="kicker">Base camp</div>
+        <p><b>${h.name}</b><br>${h.address}</p>
+        <p>Check-in ${h.checkIn} · Check-out ${h.checkOut}</p>
+        <label>Confirmation</label>
+        <input id="conf" value="${h.confirmation || ""}" ${editMode ? "" : "readonly"} />
+        <label>Room</label>
+        <input id="room" value="${h.room || ""}" ${editMode ? "" : "readonly"} />
+        <label>Notes</label>
+        <textarea id="hnotes" ${editMode ? "" : "readonly"}>${h.notes || ""}</textarea>
+        <p>Closest energy: Navy Yard, Clinton Hill, Fort Greene, Pratt. Subway is a short walk (Clinton–Washington / Classon), not doorstep. Ferry / Navy Yard area is close.</p>
+        <p>Default meet-up: hotel lobby, unless a card says otherwise.</p>
+      `;
+      if (editMode) {
+        $("conf").oninput = e => { data.hotel.confirmation = e.target.value; saveLocal(); };
+        $("room").oninput = e => { data.hotel.room = e.target.value; saveLocal(); };
+        $("hnotes").oninput = e => { data.hotel.notes = e.target.value; saveLocal(); };
+      }
+    }
+
+    function renderDays(){
+      $("dayGrid").innerHTML = data.days.map(day => {
+        const cards = sortActs(day.id).map(a => `
+          <article class="card" data-id="${a.id}">
+            <div class="t">${a.start || "--"} ${a.end ? "– " + a.end : ""} · <span class="status ${a.status}">${a.status}</span></div>
+            <h3>${a.title}</h3>
+            <div class="who">
+              ${a.who.map(id => {
+                const p = person(id); if (!p) return "";
+                return `<span class="chip" title="${p.name}" style="background:${p.color}">${p.initials}</span>`;
+              }).join("")}
+            </div>
+          </article>
+        `).join("") || `<div style="color:#5C5C5C;font-size:13px;padding:6px;">Nothing yet.</div>`;
+        return `
+          <section class="day">
+            <div class="day-h">
+              <b>${day.label}</b>
+              <span>${day.date}${day.note ? " · " + day.note : ""}</span>
+            </div>
+            <div class="list">${cards}</div>
+            <button class="add" data-day="${day.id}">+ Add</button>
+          </section>`;
+      }).join("");
+
+      document.querySelectorAll(".card").forEach(el => el.onclick = () => openDrawer(el.dataset.id));
+      document.querySelectorAll(".add").forEach(el => el.onclick = () => addActivity(el.dataset.day));
+    }
+
+    function renderPeople(){
+      $("peopleGrid").innerHTML = data.people.map(p => `
+        <div class="person">
+          <div class="chip" style="background:${p.color};width:36px;height:36px;font-size:13px;">${p.initials}</div>
+          <label>Name</label>
+          <input data-k="name" data-id="${p.id}" value="${p.name}" />
+          <label>Initials</label>
+          <input data-k="initials" data-id="${p.id}" value="${p.initials}" maxlength="3" />
+          <label>Phone</label>
+          <input data-k="phone" data-id="${p.id}" value="${p.phone || ""}" />
+          <label>Arrival</label>
+          <input data-k="arrival" data-id="${p.id}" value="${p.arrival || ""}" placeholder="Wed 4:10pm, JFK, Uber" />
+        </div>
+      `).join("") + `
+        <div class="person">
+          <div class="kicker">Group chat</div>
+          <label>WhatsApp / iMessage / GroupMe link or name</label>
+          <input id="chat" value="${data.trip.chat || ""}" />
+        </div>`;
+      document.querySelectorAll("#peopleGrid input[data-k]").forEach(inp => {
+        inp.oninput = () => {
+          const p = person(inp.dataset.id);
+          p[inp.dataset.k] = inp.value;
+          saveLocal(); renderDays();
+        };
+      });
+      $("chat").oninput = e => { data.trip.chat = e.target.value; saveLocal(); renderHotel(); };
+    }
+
+    function renderIdeas(){
+      $("ideaList").innerHTML = (data.ideas || []).map((idea, i) =>
+        `<button class="idea" data-i="${i}">${idea}</button>`
+      ).join("") || `<span>No ideas yet.</span>`;
+      document.querySelectorAll(".idea").forEach(btn => btn.onclick = () => promoteIdea(+btn.dataset.i));
+    }
+
+    function promoteIdea(i){
+      const title = data.ideas[i];
+      data.activities.push({
+        id: "a" + Date.now(),
+        day: data.days[0].id,
+        start: "",
+        end: "",
+        title,
+        place: "",
+        type: "idea",
+        status: "idea",
+        who: [],
+        notes: "Promoted from ideas.",
+        link: ""
+      });
+      data.ideas.splice(i, 1);
+      saveLocal(); renderDays(); renderIdeas();
+    }
+
+    function addActivity(day){
+      const id = "a" + Date.now();
+      data.activities.push({
+        id, day, start: "12:00", end: "", title: "New plan", place: "",
+        type: "other", status: "soft", who: [], notes: "", link: ""
+      });
+      saveLocal(); renderDays(); openDrawer(id);
+    }
+
+    function openDrawer(id){
+      activeId = id;
+      const a = data.activities.find(x => x.id === id);
+      if (!a) return;
+      $("drawer").innerHTML = `
+        <div class="kicker">Plan</div>
+        <h2 style="font-family:Syne,sans-serif;margin:6px 0 12px;">${a.title}</h2>
+        <label>Title</label>
+        <input id="dTitle" value="${a.title}" />
+        <label>Day</label>
+        <select id="dDay">${data.days.map(d => `<option value="${d.id}" ${d.id===a.day?"selected":""}>${d.label} ${d.date}</option>`).join("")}</select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div><label>Start</label><input id="dStart" type="time" value="${a.start || ""}" /></div>
+          <div><label>End</label><input id="dEnd" type="time" value="${a.end || ""}" /></div>
+        </div>
+        <label>Place</label>
+        <input id="dPlace" value="${a.place || ""}" />
+        <label>Status</label>
+        <select id="dStatus">
+          <option value="locked" ${a.status==="locked"?"selected":""}>Locked</option>
+          <option value="soft" ${a.status==="soft"?"selected":""}>Soft plan</option>
+          <option value="idea" ${a.status==="idea"?"selected":""}>Idea</option>
+        </select>
+        <label>Who’s in — tap to toggle</label>
+        <div class="who-edit">
+          ${data.people.map(p => `<button class="who-btn ${a.who.includes(p.id)?"on":""}" data-pid="${p.id}">${p.name}</button>`).join("")}
+        </div>
+        <label>Notes / link</label>
+        <textarea id="dNotes">${a.notes || ""}</textarea>
+        <input id="dLink" value="${a.link || ""}" placeholder="Maps or reservation link" style="margin-top:8px;" />
+        <div style="display:flex;gap:8px;margin-top:14px;">
+          <button class="btn yellow" id="saveAct">Save</button>
+          <button class="btn" id="delAct">Remove</button>
+        </div>
+      `;
+      $("drawer").classList.add("on");
+      $("drawerBg").classList.add("on");
+      document.querySelectorAll(".who-btn").forEach(btn => btn.onclick = () => {
+        const pid = btn.dataset.pid;
+        if (a.who.includes(pid)) a.who = a.who.filter(x => x !== pid);
+        else a.who.push(pid);
+        saveLocal(); openDrawer(id); renderDays();
+      });
+      $("saveAct").onclick = () => {
+        a.title = $("dTitle").value.trim() || "Untitled";
+        a.day = $("dDay").value;
+        a.start = $("dStart").value;
+        a.end = $("dEnd").value;
+        a.place = $("dPlace").value;
+        a.status = $("dStatus").value;
+        a.notes = $("dNotes").value;
+        a.link = $("dLink").value;
+        saveLocal(); renderDays(); closeDrawer();
+      };
+      $("delAct").onclick = () => {
+        data.activities = data.activities.filter(x => x.id !== id);
+        saveLocal(); renderDays(); closeDrawer();
+      };
+    }
+
+    function closeDrawer(){
+      $("drawer").classList.remove("on");
+      $("drawerBg").classList.remove("on");
+    }
+
+    function renderAll(){
+      renderHotel();
+      renderDays();
+      renderPeople();
+      renderIdeas();
+    }
+
+    $("drawerBg").onclick = closeDrawer;
+    document.querySelectorAll(".tab").forEach(tab => tab.onclick = () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("on"));
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("on"));
+      tab.classList.add("on");
+      $(tab.dataset.tab).classList.add("on");
+    });
+    $("editToggle").onclick = () => {
+      editMode = !editMode;
+      $("editToggle").textContent = editMode ? "Editing on" : "Edit mode";
+      $("editToggle").classList.toggle("yellow", editMode);
+      renderAll();
+    };
+    $("addIdea").onclick = () => {
+      const v = $("newIdea").value.trim();
+      if (!v) return;
+      data.ideas.push(v);
+      $("newIdea").value = "";
+      saveLocal(); renderIdeas();
+    };
+    $("publishBtn").onclick = () => {
+      $("publishOut").value = JSON.stringify(data, null, 2);
+      $("editLink").href = DEFAULT_REPO_HINT;
+      $("publishModal").showModal();
+    };
+    $("copyJson").onclick = async () => {
+      await navigator.clipboard.writeText($("publishOut").value);
+      $("copyJson").textContent = "Copied";
+      setTimeout(() => $("copyJson").textContent = "Copy JSON", 1200);
+    };
+    $("closePublish").onclick = () => $("publishModal").close();
+
+    async function boot(){
+      const local = localStorage.getItem("sela-v-data");
+      try {
+        const res = await fetch("./data.json", { cache: "no-store" });
+        const remote = await res.json();
+        if (local) {
+          const parsed = JSON.parse(local);
+          const lt = Date.parse(parsed.trip?.updatedAt || 0);
+          const rt = Date.parse(remote.trip?.updatedAt || 0);
+          data = lt > rt ? parsed : remote;
+          dirty = lt > rt;
+        } else data = remote;
+      } catch (e) {
+        data = local ? JSON.parse(local) : null;
+      }
+      if (!data) {
+        document.body.innerHTML = "<p style='padding:24px'>Could not load data.json. Put both files in the repo root and enable GitHub Pages.</p>";
+        return;
+      }
+      if (dirty) $("localBanner").classList.add("show");
+      renderAll();
+    }
+    boot();
+  </script>
+</body>
+</html>
