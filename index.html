@@ -220,16 +220,21 @@
       <label>Initials</label><input data-k="initials" data-id="${p.id}" value="${escapeAttr(p.initials)}" maxlength="3" />
       <label>Phone</label><input data-k="phone" data-id="${p.id}" value="${escapeAttr(p.phone)}" />
       <label>Arrival</label><input data-k="arrival" data-id="${p.id}" value="${escapeAttr(p.arrival)}" placeholder="Wed 4:10pm JFK" />
+      <div style="height:10px"></div>
+      <button class="btn" data-remove="${p.id}">Remove</button>
     </div>`).join("") + `<div class="person">
       <div class="kicker">Group chat</div>
       <input id="chat" value="${escapeAttr(data.trip.chat)}" placeholder="WhatsApp / iMessage link" />
       <div style="height:12px"></div>
       <button class="btn yellow" id="addPerson">Add person</button>
     </div>`;
+
   document.querySelectorAll("#peopleGrid input[data-k]").forEach(inp => {
     inp.oninput = () => { person(inp.dataset.id)[inp.dataset.k] = inp.value; pushLive(); };
   });
+
   $("chat").oninput = e => { data.trip.chat = e.target.value; pushLive(); };
+
   $("addPerson").onclick = () => {
     const n = data.people.length + 1;
     const colors = ["#FFD60A", "#0B5FFF", "#FF2D55", "#7C4DFF", "#00C853", "#FF6D00"];
@@ -243,6 +248,24 @@
     });
     pushLive();
   };
+
+  document.querySelectorAll("[data-remove]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.remove;
+      const p = person(id);
+      if (!p) return;
+      if (data.people.length <= 1) {
+        alert("Keep at least one person.");
+        return;
+      }
+      if (!confirm("Remove " + p.name + " from the trip?")) return;
+      data.people = data.people.filter(x => x.id !== id);
+      data.activities.forEach(a => {
+        a.who = (a.who || []).filter(wid => wid !== id);
+      });
+      pushLive();
+    };
+  });
 }
 
     function renderIdeas(){
