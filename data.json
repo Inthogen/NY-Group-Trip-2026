@@ -42,6 +42,14 @@
       "arrival": "Wed 3:55pm, LGA",
       "color": "#FF2D55"
     }
+    {
+      "id": "p3",
+      "name": "Nicole",
+      "initials": "NA",
+      "phone": "",
+      "arrival": "",
+      "color": "#FF2D55"
+    }
   ],
   "days": [
     {
