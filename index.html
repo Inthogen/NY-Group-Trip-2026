@@ -213,20 +213,37 @@
     }
 
     function renderPeople(){
-      $("peopleGrid").innerHTML = data.people.map(p => `
-        <div class="person">
-          <div class="chip" style="background:${p.color};width:36px;height:36px;">${escapeHtml(p.initials)}</div>
-          <label>Name</label><input data-k="name" data-id="${p.id}" value="${escapeAttr(p.name)}" />
-          <label>Initials</label><input data-k="initials" data-id="${p.id}" value="${escapeAttr(p.initials)}" maxlength="3" />
-          <label>Phone</label><input data-k="phone" data-id="${p.id}" value="${escapeAttr(p.phone)}" />
-          <label>Arrival</label><input data-k="arrival" data-id="${p.id}" value="${escapeAttr(p.arrival)}" placeholder="Wed 4:10pm JFK" />
-        </div>`).join("") + `<div class="person"><div class="kicker">Group chat</div>
-          <input id="chat" value="${escapeAttr(data.trip.chat)}" placeholder="WhatsApp / iMessage link" /></div>`;
-      document.querySelectorAll("#peopleGrid input[data-k]").forEach(inp => {
-        inp.oninput = () => { person(inp.dataset.id)[inp.dataset.k] = inp.value; pushLive(); };
-      });
-      $("chat").oninput = e => { data.trip.chat = e.target.value; pushLive(); };
-    }
+  $("peopleGrid").innerHTML = data.people.map(p => `
+    <div class="person">
+      <div class="chip" style="background:${p.color};width:36px;height:36px;">${escapeHtml(p.initials)}</div>
+      <label>Name</label><input data-k="name" data-id="${p.id}" value="${escapeAttr(p.name)}" />
+      <label>Initials</label><input data-k="initials" data-id="${p.id}" value="${escapeAttr(p.initials)}" maxlength="3" />
+      <label>Phone</label><input data-k="phone" data-id="${p.id}" value="${escapeAttr(p.phone)}" />
+      <label>Arrival</label><input data-k="arrival" data-id="${p.id}" value="${escapeAttr(p.arrival)}" placeholder="Wed 4:10pm JFK" />
+    </div>`).join("") + `<div class="person">
+      <div class="kicker">Group chat</div>
+      <input id="chat" value="${escapeAttr(data.trip.chat)}" placeholder="WhatsApp / iMessage link" />
+      <div style="height:12px"></div>
+      <button class="btn yellow" id="addPerson">Add person</button>
+    </div>`;
+  document.querySelectorAll("#peopleGrid input[data-k]").forEach(inp => {
+    inp.oninput = () => { person(inp.dataset.id)[inp.dataset.k] = inp.value; pushLive(); };
+  });
+  $("chat").oninput = e => { data.trip.chat = e.target.value; pushLive(); };
+  $("addPerson").onclick = () => {
+    const n = data.people.length + 1;
+    const colors = ["#FFD60A", "#0B5FFF", "#FF2D55", "#7C4DFF", "#00C853", "#FF6D00"];
+    data.people.push({
+      id: "p" + Date.now(),
+      name: "Friend " + n,
+      initials: "F" + n,
+      phone: "",
+      arrival: "",
+      color: colors[(n - 1) % colors.length]
+    });
+    pushLive();
+  };
+}
 
     function renderIdeas(){
       $("ideaList").innerHTML = (data.ideas||[]).map((idea,i) =>
